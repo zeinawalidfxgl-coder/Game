@@ -13,6 +13,24 @@
         <mxCell id="q1_caYBx7QNEF4JRSwmG-4" parent="q1_caYBx7QNEF4JRSwmG-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ main(args): void" vertex="1">
           <mxGeometry height="26" width="160" y="34" as="geometry" />
         </mxCell>
+        <mxCell id="Up63QsylGtlS9sd6hXJX-1" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="SudokoVerifier" vertex="1">
+          <mxGeometry height="220" width="220" x="530" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="Up63QsylGtlS9sd6hXJX-2" parent="Up63QsylGtlS9sd6hXJX-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- board: SudokoBoard" vertex="1">
+          <mxGeometry height="26" width="220" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="Up63QsylGtlS9sd6hXJX-3" parent="Up63QsylGtlS9sd6hXJX-1" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="220" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="Up63QsylGtlS9sd6hXJX-4" parent="Up63QsylGtlS9sd6hXJX-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ verify(mode: int)&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;:&amp;nbsp;&amp;nbsp;ValidationResult&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;&lt;div style=&quot;&quot;&gt;- runSequential(result: ValidationResult): void&lt;/div&gt;&lt;div style=&quot;&quot;&gt;- runMode3(result: ValidationResult): void&lt;/div&gt;&lt;div style=&quot;&quot;&gt;- runMode27(result: ValidationResult): void&lt;/div&gt;&lt;div style=&quot;&quot;&gt;- excuteThreads(threads: List&amp;lt;Thread&amp;gt;): void&lt;/div&gt;&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="160" width="220" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Up63QsylGtlS9sd6hXJX-5" edge="1" parent="1" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;entryX=0.454;entryY=-0.014;entryDx=0;entryDy=0;entryPerimeter=0;" target="Up63QsylGtlS9sd6hXJX-1" value="Use">
+          <mxGeometry relative="1" width="160" as="geometry">
+            <mxPoint x="460" y="120" as="sourcePoint" />
+            <mxPoint x="620" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
