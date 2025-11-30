@@ -5,62 +5,46 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import java.util.*;
+
 public class ValidationResult {
 
-    // Updated Record: Now stores 'locations' (the list of indices where the dupe appears)
-    public record Duplicate(String type, int id, int value, List<Integer> locations) {}
+    private final Map<String, Map<Integer, List<Integer>>> duplicates = new HashMap<>();
 
-    // Thread-safe list
-    private final List<Duplicate> duplicates = new CopyOnWriteArrayList<>();
+    // synchronized method → thread-safe
+    public synchronized void addDuplicate(String type, int id, int value, List<Integer> locations) {
+        // اتأكد إن outer map موجودة
+        if (!duplicates.containsKey(type)) {
+            duplicates.put(type, new HashMap<>());
+        }
 
-    public void addDuplicate(String type, int id, int value, List<Integer> locations) {
-        duplicates.add(new Duplicate(type, id, value, locations));
+        Map<Integer, List<Integer>> innerMap = duplicates.get(type);
+
+        // اتأكد إن inner map موجودة
+        if (!innerMap.containsKey(value)) {
+            innerMap.put(value, new ArrayList<>());
+        }
+
+        // أضف كل المواقع للقائمة
+        innerMap.get(value).addAll(locations);
     }
 
-    public boolean isValid() {
-        return duplicates.isEmpty();
-    }
-
-    public void printDuplicates() {
-        if (isValid()) {
-            System.out.println("VALID");
+    // synchronized print method (اختياري لو هيتنادى عليها من أكثر من thread)
+    public synchronized void printDuplicates() {
+        if (duplicates.isEmpty()) {
+            System.out.println("No duplicates found. Sudoku is valid!");
             return;
         }
 
-        System.out.println("INVALID");
-
-        // Convert to a standard list to sort it for the report
-        List<Duplicate> sortedList = new ArrayList<>(duplicates);
-        
-        // Sort to ensure Rows print first, then Cols, then Boxes (nice to have)
-        // Custom sort: ROW -> COL -> BOX
-        sortedList.sort(Comparator.comparingInt(d -> {
-            return switch (d.type()) {
-                case "ROW" -> 1;
-                case "COL" -> 2;
-                case "BOX" -> 3;
-                default -> 4;
-            };
-        }));
-
-        String currentType = "";
-        
-        for (Duplicate d : sortedList) {
-            // Print separator line when type changes (ROW -> COL)
-            if (!d.type().equals(currentType)) {
-                if (!currentType.isEmpty()) {
-                    System.out.println("------------------------------------------");
-                }
-                currentType = d.type();
+        for (String type : duplicates.keySet()) {
+            Map<Integer, List<Integer>> map = duplicates.get(type);
+            for (Map.Entry<Integer, List<Integer>> entry : map.entrySet()) {
+                System.out.println(type + " - Value " + entry.getKey() + " duplicated at positions: " + entry.getValue());
             }
-
-            // Output Format: ROW 1, #1, [1, 2, 3]
-            System.out.printf("%s %d, #%d, %s%n", 
-                d.type(), 
-                d.id() + 1,       // Convert 0-index to 1-index
-                d.value(), 
-                d.locations().toString()
-            );
         }
+    }
+
+    public synchronized boolean isValid() {
+        return duplicates.isEmpty();
     }
 }
