@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SudokuVerifier {
-    
+
     private final SudokuBoard board;
 
     public SudokuVerifier(SudokuBoard board) {
@@ -13,7 +13,6 @@ public class SudokuVerifier {
 
     public ValidationResult verify(int mode) {
         ValidationResult result = new ValidationResult();
-        
         switch (mode) {
             case 0:
                 runSequential(result);
@@ -27,33 +26,32 @@ public class SudokuVerifier {
             default:
                 break;
         }
-        
         return result;
     }
 
     private void runSequential(ValidationResult result) {
-        // Mode 0: Run directly in Main thread
-        new RowChecker(board, result, 0, 9).run();
-        new ColChecker(board, result, 0, 9).run();
-        new BoxChecker(board, result, 0, 9).run();
+        // Mode 0: sequential
+        CheckerFactory.createChecker("row", board, result, 0, 9).run();
+        CheckerFactory.createChecker("col", board, result, 0, 9).run();
+        CheckerFactory.createChecker("box", board, result, 0, 9).run();
     }
 
     private void runMode3(ValidationResult result) {
-        // Mode 3: 3 Threads + Main
+        // Mode 3: 3 threads
         List<Thread> threads = new ArrayList<>();
-        threads.add(new Thread(new RowChecker(board, result, 0, 9)));
-        threads.add(new Thread(new ColChecker(board, result, 0, 9)));
-        threads.add(new Thread(new BoxChecker(board, result, 0, 9)));
+        threads.add(new Thread(CheckerFactory.createChecker("row", board, result, 0, 9)));
+        threads.add(new Thread(CheckerFactory.createChecker("col", board, result, 0, 9)));
+        threads.add(new Thread(CheckerFactory.createChecker("box", board, result, 0, 9)));
         executeThreads(threads);
     }
 
     private void runMode27(ValidationResult result) {
-        // Mode 27: 27 Threads
+        // Mode 27: 27 threads
         List<Thread> threads = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
-            threads.add(new Thread(new RowChecker(board, result, i, i + 1)));
-            threads.add(new Thread(new ColChecker(board, result, i, i + 1)));
-            threads.add(new Thread(new BoxChecker(board, result, i, i + 1)));
+            threads.add(new Thread(CheckerFactory.createChecker("row", board, result, i, i + 1)));
+            threads.add(new Thread(CheckerFactory.createChecker("col", board, result, i, i + 1)));
+            threads.add(new Thread(CheckerFactory.createChecker("box", board, result, i, i + 1)));
         }
         executeThreads(threads);
     }
